@@ -1,0 +1,25 @@
+# system_lbs_110 Setup Script
+# author:zerocool32
+
+set SUCCESSMSG "Install Complete!"
+set ERRORMSG "Install failed!"
+
+ask This will install utilities to Godmode9. \n\nContinue?
+
+allow -a 1:/
+
+# removing Luma3DS .firm file just in case
+rm -o -s 1:/boot.firm
+rm -o -s 1:/rw/luma
+
+# copying luma3ds and setting up ctrnand luma3ds
+cp 0:/boot.firm 1:/boot.firm
+mkdir 1:/rw/luma
+cp 0:/luma/payloads 1:/rw/luma/payloads
+cp 0:/luma/config.bin 1:/rw/luma/config.bin
+
+# backing up SysNAND
+ask "This will backup SysNAND. \n\nIt will create a file named [DATESTAMP]_[SERIAL]_sysnand_???.bin and plase it in $[GM9OUT]"
+findnot $[GM9OUT]/$[DATESTAMP]_$[SERIAL]_sysnand_???.bin OUTPATH
+cp -h S:/nand_minsize.bin $[OUTPATH]
+echo "Backup created successfully:\n$[OUTPATH]"
